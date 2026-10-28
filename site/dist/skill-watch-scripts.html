@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watch scripts — Agent Automations</title>
+<meta name="description" content="on.watch runs a script every every without a model. A run starts only when the script reports something new, so an hour with no new work costs no model calls.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="text/markdown" href="skills/agent-automations/references/watch-scripts.md" title="This page as Markdown">
+<script>(function(){var d=document.documentElement;d.className=d.className.replace("no-js","js");try{var t=localStorage.getItem("aa-theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">Agent Automations</a>
+    <div class="search" role="search">
+      <label class="search-box">
+        <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span>
+        <span class="visually-hidden">Search the documentation</span>
+        <input id="search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-controls="search-results" aria-expanded="false" aria-autocomplete="list" role="combobox">
+        <kbd class="search-kbd">Ctrl K</kbd>
+      </label>
+      <div id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></div>
+    </div>
+    <div class="topbar-right">
+      <a class="repo-link" href="https://github.com/OWNER/pi-automations" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span>OWNER/pi-automations</span></a>
+      <button type="button" class="theme-toggle" aria-label="Switch to light theme" hidden><span class="icon-sun"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></span><span class="icon-moon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></span></button>
+    </div>
+  </div>
+</header>
+<details class="mobile-nav">
+  <summary><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="mobile-nav-current">references/watch-scripts.md</span></summary>
+  <nav aria-label="Documentation"><div class="nav-group"><ul><li><a href="index.html">Overview</a></li><li><a href="specification.html">Specification</a></li><li><a href="validation.html">Validation messages</a></li><li><a href="hosts.html">Hosts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For automation authors</p><ul><li><a href="quickstart.html">Quickstart</a></li><li><a href="best-practices.html">Best practices</a></li><li><a href="watch-scripts.html">Watch scripts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For host implementors</p><ul><li><a href="adding-support.html">Adding automations support</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Agent skill</p><ul><li><a href="skill.html">SKILL.md</a></li><li><a href="skill-checklist.html">references/checklist.md</a></li><li><a href="skill-specification.html">references/specification.md</a></li><li><a href="skill-watch-scripts.html" aria-current="page">references/watch-scripts.md</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Optional</p><ul><li><a href="flowcharts.html">Flowcharts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">pi-automations</p><ul><li><a href="pi-automations.html">About pi-automations</a></li><li><a href="quickstart-pi.html">Quickstart with pi</a></li><li><a href="reporting.html">Progress and notes</a></li><li><a href="pi-implementation.html">How it implements the spec</a></li></ul></div></nav>
+</details>
+<div class="layout">
+  <aside class="sidebar">
+    <nav aria-label="Documentation"><div class="nav-group"><ul><li><a href="index.html">Overview</a></li><li><a href="specification.html">Specification</a></li><li><a href="validation.html">Validation messages</a></li><li><a href="hosts.html">Hosts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For automation authors</p><ul><li><a href="quickstart.html">Quickstart</a></li><li><a href="best-practices.html">Best practices</a></li><li><a href="watch-scripts.html">Watch scripts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For host implementors</p><ul><li><a href="adding-support.html">Adding automations support</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Agent skill</p><ul><li><a href="skill.html">SKILL.md</a></li><li><a href="skill-checklist.html">references/checklist.md</a></li><li><a href="skill-specification.html">references/specification.md</a></li><li><a href="skill-watch-scripts.html" aria-current="page">references/watch-scripts.md</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Optional</p><ul><li><a href="flowcharts.html">Flowcharts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">pi-automations</p><ul><li><a href="pi-automations.html">About pi-automations</a></li><li><a href="quickstart-pi.html">Quickstart with pi</a></li><li><a href="reporting.html">Progress and notes</a></li><li><a href="pi-implementation.html">How it implements the spec</a></li></ul></div></nav>
+  </aside>
+  <main id="content" class="content" tabindex="-1">
+    <article>
+      <header class="page-header">
+        <p class="eyebrow">Agent skill</p>
+        <div class="page-title-row">
+          <h1>Watch scripts</h1>
+          <div class="page-actions">
+            <button type="button" class="copy-page" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg><span class="copy-page-label">Copy page</span></button>
+            <details class="page-menu">
+              <summary aria-label="More ways to read this page"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg></summary>
+              <div class="page-menu-items">
+                <a href="skills/agent-automations/references/watch-scripts.md">View as Markdown</a>
+                <a href="llms.txt">llms.txt</a>
+              </div>
+            </details>
+          </div>
+        </div>
+        <p class="lead"><code>on.watch</code> runs a script every <code>every</code> without a model. A run starts only when the script reports something new, so an hour with no new work costs no model calls.</p>
+      </header>
+      <div class="prose">
+<div class="code-block"><div class="code-body"><button type="button" class="copy-code" aria-label="Copy code" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></button><pre tabindex="0"><code class="language-yaml"><span class="tok-key">on</span><span class="tok-punct">:</span>
+  <span class="tok-key">watch</span><span class="tok-punct">:</span>
+    <span class="tok-key">script</span><span class="tok-punct">:</span> <span class="tok-str">scripts/watch.mjs</span>   <span class="tok-com"># relative to the automation folder, inside it</span>
+    <span class="tok-key">every</span><span class="tok-punct">:</span> <span class="tok-str">5m</span>                   <span class="tok-com"># 1m to 24h</span>
+  <span class="tok-key">manual</span><span class="tok-punct">:</span> <span class="tok-kw">true</span></code></pre></div></div>
+<h2 id="contents"><a class="heading-anchor" href="#contents" aria-label="Link to this section: Contents"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Contents</h2>
+<ul>
+<li><a href="#the-contract">The contract</a></li>
+<li><a href="#what-to-print">What to print</a></li>
+<li><a href="#when-checks-run">When checks run</a></li>
+<li><a href="#after-a-run-starts">After a run starts</a></li>
+<li><a href="#template">Template</a></li>
+<li><a href="#testing">Testing</a></li>
+</ul>
+<h2 id="the-contract"><a class="heading-anchor" href="#the-contract" aria-label="Link to this section: The contract"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>The contract</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>The script</th><th>The host</th></tr></thead>
+<tbody><tr><td>Exits <code>0</code> and prints something different from what started the last run</td><td>Starts a run and remembers a fingerprint of the output.</td></tr>
+<tr><td>Exits <code>0</code> and prints the same as what started the last run</td><td>Does nothing.</td></tr>
+<tr><td>Exits with any other code (use <code>3</code> for &quot;nothing to do&quot;)</td><td>Does nothing and forgets the last finding.</td></tr>
+<tr><td>Times out, cannot start, or is killed by a signal</td><td>Does nothing and keeps the last finding.</td></tr></tbody>
+</table></div>
+<ul>
+<li>The fingerprint is a SHA-256 of standard output with surrounding whitespace trimmed.</li>
+<li>The output is <strong>not</strong> passed to the run. Use a pre hook to fetch the details the body needs.</li>
+<li>The first line of standard output (on exit <code>0</code>) or the last line of standard error (otherwise) is shown in listings as what the check said, clipped to 200 characters. Write a short reason on stderr when exiting <code>3</code>.</li>
+</ul>
+<h2 id="what-to-print"><a class="heading-anchor" href="#what-to-print" aria-label="Link to this section: What to print"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>What to print</h2>
+<p>Print one stable identifier per line, sorted: URLs, ids, file names. Never print timestamps, counters, &quot;checked at …&quot; or anything else that changes when nothing has changed, or every check starts a run.</p>
+<p>Print only what still needs doing. When the body handles an item, the item should disappear from the output (closed, labelled, moved), so the next check sees a change, or nothing.</p>
+<h2 id="when-checks-run"><a class="heading-anchor" href="#when-checks-run" aria-label="Link to this section: When checks run"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>When checks run</h2>
+<ul>
+<li>The host ticks once a minute; a check is due when <code>every</code> has passed since the last one.</li>
+<li>No check runs while a run of the same automation is going, while the host has paused the watch, or while the automation is not armed (invalid, disabled, or not armed yet).</li>
+<li>A check may take at most the host's hook timeout, capped at 2 minutes.</li>
+<li>The script starts in the automation folder, with no stdin, the <code>AUTOMATION_*</code> variables (<code>AUTOMATION_PHASE=watch</code>, <code>AUTOMATION_TRIGGER=watch</code>) and no credential-shaped variables. <code>AUTOMATION_LAST_CHECKED</code> is the ISO time of the previous check that ran to an exit code, for &quot;what changed since&quot;.</li>
+<li>Scheduled checks do not read the shell profile. Use tools that keep their own login.</li>
+</ul>
+<h2 id="after-a-run-starts"><a class="heading-anchor" href="#after-a-run-starts" aria-label="Link to this section: After a run starts"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>After a run starts</h2>
+<p>The host remembers the finding that started a run, whatever the run's outcome. If the run failed or was skipped and the script keeps printing the same thing, no new run starts. This keeps a broken run from being retried every five minutes. To retry, run it by hand, or let the output change.</p>
+<p>The host keeps the fingerprint, so most watch scripts need no state of their own. A script that does keep state must survive being killed halfway and run again.</p>
+<p>Any non-zero exit forgets the finding, including an exit caused by a network error. After one, the next successful check counts as new even if it prints the same items, and a run starts. Write the body so a second run over the same items does no harm.</p>
+<h2 id="template"><a class="heading-anchor" href="#template" aria-label="Link to this section: Template"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Template</h2>
+<div class="code-block"><div class="code-body"><button type="button" class="copy-code" aria-label="Copy code" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></button><pre tabindex="0"><code class="language-js"><span class="tok-com">// scripts/watch.mjs: prints one line per open item, or exits 3 when there is none.</span>
+<span class="tok-kw">import</span> { execFileSync } <span class="tok-kw">from</span> <span class="tok-str">&quot;node:child_process&quot;</span>;
+
+<span class="tok-kw">let</span> items;
+<span class="tok-kw">try</span> {
+  <span class="tok-kw">const</span> out = <span class="tok-fn">execFileSync</span>(<span class="tok-str">&quot;gh&quot;</span>, [<span class="tok-str">&quot;search&quot;</span>, <span class="tok-str">&quot;prs&quot;</span>, <span class="tok-str">&quot;--review-requested=@me&quot;</span>, <span class="tok-str">&quot;--state=open&quot;</span>, <span class="tok-str">&quot;--json&quot;</span>, <span class="tok-str">&quot;url&quot;</span>], {
+    encoding: <span class="tok-str">&quot;utf8&quot;</span>,
+  });
+  items = JSON.<span class="tok-fn">parse</span>(out).<span class="tok-fn">map</span>((pr) =&gt; pr.url).<span class="tok-fn">sort</span>();
+} <span class="tok-kw">catch</span> (e) {
+  console.<span class="tok-fn">error</span>(<span class="tok-str">`could not ask GitHub: ${e.message.split(&quot;\n&quot;)[0]}`</span>);
+  process.<span class="tok-fn">exit</span>(<span class="tok-num">1</span>); <span class="tok-com">// no run now, but the last finding is forgotten</span>
+}
+
+<span class="tok-kw">if</span> (items.length === <span class="tok-num">0</span>) {
+  console.<span class="tok-fn">error</span>(<span class="tok-str">&quot;no review requests&quot;</span>);
+  process.<span class="tok-fn">exit</span>(<span class="tok-num">3</span>);
+}
+console.<span class="tok-fn">log</span>(items.<span class="tok-fn">join</span>(<span class="tok-str">&quot;\n&quot;</span>));</code></pre></div></div>
+<p>Pair it with a pre hook that fetches the details for the same items, and a body that handles each one and skips any it already handled.</p>
+<h2 id="testing"><a class="heading-anchor" href="#testing" aria-label="Link to this section: Testing"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Testing</h2>
+<ul>
+<li>If the host can run one watch check without starting a run, use that: it says whether a tick would start a run, and starts and records nothing.</li>
+<li>Run the script directly from the automation folder: <code>node scripts/watch.mjs; echo $?</code>. Run it again without changing anything: the output must be the same.</li>
+</ul>
+      </div>
+      <nav class="pager" aria-label="Previous and next page"><a class="pager-prev" href="skill-specification.html" rel="prev"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 7l-5 5 5 5"/></svg><span class="pager-text"><span class="pager-label">Previous</span><span class="pager-title">references/specification.md</span></span></a><a class="pager-next" href="flowcharts.html" rel="next"><span class="pager-text"><span class="pager-label">Next</span><span class="pager-title">Flowcharts</span></span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 7l5 5-5 5"/></svg></a></nav>
+    </article>
+    <footer class="site-footer">
+      <p>Agent Automations · Draft 0.2 · <a href="llms.txt">llms.txt</a> · <a href="https://github.com/OWNER/pi-automations" rel="noopener">Source</a></p>
+    </footer>
+  </main>
+  <aside class="toc-column"><nav class="toc" aria-label="On this page"><p class="toc-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h10M4 18h13"/></svg><span>On this page</span></p><ul><li class="toc-l2"><a href="#contents">Contents</a></li><li class="toc-l2"><a href="#the-contract">The contract</a></li><li class="toc-l2"><a href="#what-to-print">What to print</a></li><li class="toc-l2"><a href="#when-checks-run">When checks run</a></li><li class="toc-l2"><a href="#after-a-run-starts">After a run starts</a></li><li class="toc-l2"><a href="#template">Template</a></li><li class="toc-l2"><a href="#testing">Testing</a></li></ul></nav></aside>
+</div>
+<script type="application/json" id="page-markdown">"# Watch scripts\n\n`on.watch` runs a script every `every` without a model. A run starts only when the script reports something new, so an hour with no new work costs no model calls.\n\n```yaml\non:\n  watch:\n    script: scripts/watch.mjs   # relative to the automation folder, inside it\n    every: 5m                   # 1m to 24h\n  manual: true\n```\n\n## Contents\n\n- [The contract](#the-contract)\n- [What to print](#what-to-print)\n- [When checks run](#when-checks-run)\n- [After a run starts](#after-a-run-starts)\n- [Template](#template)\n- [Testing](#testing)\n\n## The contract\n\n| The script | The host |\n|---|---|\n| Exits `0` and prints something different from what started the last run | Starts a run and remembers a fingerprint of the output. |\n| Exits `0` and prints the same as what started the last run | Does nothing. |\n| Exits with any other code (use `3` for \"nothing to do\") | Does nothing and forgets the last finding. |\n| Times out, cannot start, or is killed by a signal | Does nothing and keeps the last finding. |\n\n- The fingerprint is a SHA-256 of standard output with surrounding whitespace trimmed.\n- The output is **not** passed to the run. Use a pre hook to fetch the details the body needs.\n- The first line of standard output (on exit `0`) or the last line of standard error (otherwise) is shown in listings as what the check said, clipped to 200 characters. Write a short reason on stderr when exiting `3`.\n\n## What to print\n\nPrint one stable identifier per line, sorted: URLs, ids, file names. Never print timestamps, counters, \"checked at …\" or anything else that changes when nothing has changed, or every check starts a run.\n\nPrint only what still needs doing. When the body handles an item, the item should disappear from the output (closed, labelled, moved), so the next check sees a change, or nothing.\n\n## When checks run\n\n- The host ticks once a minute; a check is due when `every` has passed since the last one.\n- No check runs while a run of the same automation is going, while the host has paused the watch, or while the automation is not armed (invalid, disabled, or not armed yet).\n- A check may take at most the host's hook timeout, capped at 2 minutes.\n- The script starts in the automation folder, with no stdin, the `AUTOMATION_*` variables (`AUTOMATION_PHASE=watch`, `AUTOMATION_TRIGGER=watch`) and no credential-shaped variables. `AUTOMATION_LAST_CHECKED` is the ISO time of the previous check that ran to an exit code, for \"what changed since\".\n- Scheduled checks do not read the shell profile. Use tools that keep their own login.\n\n## After a run starts\n\nThe host remembers the finding that started a run, whatever the run's outcome. If the run failed or was skipped and the script keeps printing the same thing, no new run starts. This keeps a broken run from being retried every five minutes. To retry, run it by hand, or let the output change.\n\nThe host keeps the fingerprint, so most watch scripts need no state of their own. A script that does keep state must survive being killed halfway and run again.\n\nAny non-zero exit forgets the finding, including an exit caused by a network error. After one, the next successful check counts as new even if it prints the same items, and a run starts. Write the body so a second run over the same items does no harm.\n\n## Template\n\n```js\n// scripts/watch.mjs: prints one line per open item, or exits 3 when there is none.\nimport { execFileSync } from \"node:child_process\";\n\nlet items;\ntry {\n  const out = execFileSync(\"gh\", [\"search\", \"prs\", \"--review-requested=@me\", \"--state=open\", \"--json\", \"url\"], {\n    encoding: \"utf8\",\n  });\n  items = JSON.parse(out).map((pr) => pr.url).sort();\n} catch (e) {\n  console.error(`could not ask GitHub: ${e.message.split(\"\\n\")[0]}`);\n  process.exit(1); // no run now, but the last finding is forgotten\n}\n\nif (items.length === 0) {\n  console.error(\"no review requests\");\n  process.exit(3);\n}\nconsole.log(items.join(\"\\n\"));\n```\n\nPair it with a pre hook that fetches the details for the same items, and a body that handles each one and skips any it already handled.\n\n## Testing\n\n- If the host can run one watch check without starting a run, use that: it says whether a tick would start a run, and starts and records nothing.\n- Run the script directly from the automation folder: `node scripts/watch.mjs; echo $?`. Run it again without changing anything: the output must be the same.\n"</script>
+<script src="search-index.js" defer></script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

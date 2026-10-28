@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-22",
+  "nodeVersion": "24.12.0",
+  "minimumSupported": "0.84.4",
+  "scope": "Actual SDK AgentSessionRuntime.newSession and loadExtensionsCached; fake AgentSession/model/UI",
+  "results": [
+    {
+      "sdkVersion": "0.84.4",
+      "factoryInvocations": 3,
+      "newSessionCalls": 2,
+      "startsOnDisposedInstance": 0,
+      "shutdowns": 3,
+      "events": [
+        { "event": "factory", "instance": 1 },
+        { "event": "start", "instance": 1, "disposed": false },
+        { "event": "shutdown", "instance": 1, "disposed": true },
+        { "event": "factory", "instance": 2 },
+        { "event": "start", "instance": 2, "disposed": false },
+        { "event": "shutdown", "instance": 2, "disposed": true },
+        { "event": "factory", "instance": 3 },
+        { "event": "start", "instance": 3, "disposed": false },
+        { "event": "shutdown", "instance": 3, "disposed": true }
+      ]
+    },
+    {
+      "sdkVersion": "0.85.1",
+      "factoryInvocations": 3,
+      "newSessionCalls": 2,
+      "startsOnDisposedInstance": 0,
+      "shutdowns": 3,
+      "events": [
+        { "event": "factory", "instance": 1 },
+        { "event": "start", "instance": 1, "disposed": false },
+        { "event": "shutdown", "instance": 1, "disposed": true },
+        { "event": "factory", "instance": 2 },
+        { "event": "start", "instance": 2, "disposed": false },
+        { "event": "shutdown", "instance": 2, "disposed": true },
+        { "event": "factory", "instance": 3 },
+        { "event": "start", "instance": 3, "disposed": false },
+        { "event": "shutdown", "instance": 3, "disposed": true }
+      ]
+    },
+    {
+      "sdkVersion": "0.99.2",
+      "factoryInvocations": 3,
+      "newSessionCalls": 2,
+      "startsOnDisposedInstance": 0,
+      "shutdowns": 3,
+      "events": [
+        { "event": "factory", "instance": 1 },
+        { "event": "start", "instance": 1, "disposed": false },
+        { "event": "shutdown", "instance": 1, "disposed": true },
+        { "event": "factory", "instance": 2 },
+        { "event": "start", "instance": 2, "disposed": false },
+        { "event": "shutdown", "instance": 2, "disposed": true },
+        { "event": "factory", "instance": 3 },
+        { "event": "start", "instance": 3, "disposed": false },
+        { "event": "shutdown", "instance": 3, "disposed": true }
+      ]
+    },
+    {
+      "sdkVersion": "1.2.0",
+      "factoryInvocations": 3,
+      "newSessionCalls": 2,
+      "startsOnDisposedInstance": 0,
+      "shutdowns": 3,
+      "events": [
+        { "event": "factory", "instance": 1 },
+        { "event": "start", "instance": 1, "disposed": false },
+        { "event": "shutdown", "instance": 1, "disposed": true },
+        { "event": "factory", "instance": 2 },
+        { "event": "start", "instance": 2, "disposed": false },
+        { "event": "shutdown", "instance": 2, "disposed": true },
+        { "event": "factory", "instance": 3 },
+        { "event": "start", "instance": 3, "disposed": false },
+        { "event": "shutdown", "instance": 3, "disposed": true }
+      ]
+    }
+  ]
+}

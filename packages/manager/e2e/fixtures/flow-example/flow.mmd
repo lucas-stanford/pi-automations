@@ -1,0 +1,7 @@
+flowchart TD
+  pre0["Prepare run context"] --> body["Coordinate status-note subagents"]
+  body --> outline["Draft outline"]
+  body --> facts["Collect run facts"]
+  outline --> compose["Combine worker results"]
+  facts --> compose
+  compose --> post0["Save result"]

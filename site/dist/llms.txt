@@ -1,0 +1,27 @@
+# Agent Automations
+
+> A standardized way to tell AI agents when to act. An automation is a folder with an AUTOMATION.md: YAML frontmatter that says when an agent runs and what runs before and after it, and a Markdown body that is the prompt for each run. Draft 0.2.
+
+## Docs
+
+- [Agent Automations Overview](index.md): A standardized way to tell AI agents when to act.
+- [Specification](specification.md): The complete format specification for Agent Automations, Draft 0.2.
+- [Validation messages](validation.md): Every message a host gives when it refuses an AUTOMATION.md, grouped by field, with a file that produces it.
+- [Hosts](hosts.md): Agents that run Agent Automations, and what a host may add.
+- [Quickstart](quickstart.md): Create your first automation, run it, and read its record.
+- [Best practices](best-practices.md): How to write automations that are cheap to run and safe to leave alone.
+- [Writing watch scripts](watch-scripts.md): How a watch script tells the host there is new work, and how to write one that starts runs only when it should.
+- [Adding automations support](adding-support.md): How to implement Agent Automations in an agent or tool, from discovery to the run record.
+- [Flowcharts](flowcharts.md): Optional. A chart of the run's steps in the body, and a field that holds the body to it.
+- [pi-automations](pi-automations.md): The reference host, for the pi coding agent. How to install and use it, and what it adds to the specification.
+- [Quickstart with pi](quickstart-pi.md): Create your first automation in pi, arm it, run it with pa, and read its record.
+- [Reporting progress, notes and the message](reporting.md): How a run reports where it has got to, what it published, and its one message for you, with the pa command.
+- [How pi-automations implements it](pi-implementation.md): The choices the reference host makes where the specification leaves them to the host, for people building their own.
+
+## Agent skill
+
+- [agent-automations](skills/agent-automations/SKILL.md): Create, review and fix Agent Automations, the AUTOMATION.md files that run an AI agent on a cron schedule, when a watch script finds new work, or on demand. Use when the user wants to automate a recurring agent task, schedule a prompt, react when something new appears, write or debug an AUTOMATION.md, a hook or a watch script, or make a run leave receipts, a record of what it published and one message for the reader.
+- [Review checklist](skills/agent-automations/references/checklist.md)
+- [AUTOMATION.md field reference (Draft 0.2)](skills/agent-automations/references/specification.md)
+- [Watch scripts](skills/agent-automations/references/watch-scripts.md)
+- [agent-automations.zip](skills/agent-automations.zip)

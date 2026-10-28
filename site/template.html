@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="text/markdown" href="{{mdHref}}" title="This page as Markdown">
+<script>(function(){var d=document.documentElement;d.className=d.className.replace("no-js","js");try{var t=localStorage.getItem("aa-theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">{{siteTitle}}</a>
+    <div class="search" role="search">
+      <label class="search-box">
+        <span class="search-icon">{{iconSearch}}</span>
+        <span class="visually-hidden">Search the documentation</span>
+        <input id="search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-controls="search-results" aria-expanded="false" aria-autocomplete="list" role="combobox">
+        <kbd class="search-kbd">Ctrl K</kbd>
+      </label>
+      <div id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></div>
+    </div>
+    <div class="topbar-right">
+      <a class="repo-link" href="{{repoUrl}}" rel="noopener">{{iconGithub}}<span>{{repoLabel}}</span></a>
+      <button type="button" class="theme-toggle" aria-label="Switch to light theme" hidden><span class="icon-sun">{{iconSun}}</span><span class="icon-moon">{{iconMoon}}</span></button>
+    </div>
+  </div>
+</header>
+<details class="mobile-nav">
+  <summary>{{iconMenu}}<span class="mobile-nav-current">{{currentNav}}</span></summary>
+  <nav aria-label="Documentation">{{nav}}</nav>
+</details>
+<div class="layout">
+  <aside class="sidebar">
+    <nav aria-label="Documentation">{{nav}}</nav>
+  </aside>
+  <main id="content" class="content" tabindex="-1">
+    <article>
+      <header class="page-header">
+        {{eyebrow}}
+        <div class="page-title-row">
+          <h1>{{pageTitle}}</h1>
+          <div class="page-actions">
+            <button type="button" class="copy-page" hidden>{{iconCopy}}<span class="copy-page-label">Copy page</span></button>
+            <details class="page-menu">
+              <summary aria-label="More ways to read this page">{{iconChevron}}</summary>
+              <div class="page-menu-items">
+                <a href="{{mdHref}}">View as Markdown</a>
+                <a href="llms.txt">llms.txt</a>
+              </div>
+            </details>
+          </div>
+        </div>
+        <p class="lead">{{lead}}</p>
+      </header>
+      <div class="prose">
+{{content}}
+      </div>
+      {{pager}}
+    </article>
+    <footer class="site-footer">
+      <p>Agent Automations · Draft 0.2 · <a href="llms.txt">llms.txt</a> · <a href="{{repoUrl}}" rel="noopener">Source</a></p>
+    </footer>
+  </main>
+  <aside class="toc-column">{{toc}}</aside>
+</div>
+<script type="application/json" id="page-markdown">{{markdownJson}}</script>
+<script src="search-index.js" defer></script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

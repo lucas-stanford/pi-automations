@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+dist/** linguist-generated=true
+site/dist/** linguist-generated=true
+*.zip binary

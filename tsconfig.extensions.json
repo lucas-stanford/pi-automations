@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "verbatimModuleSyntax": true,
+    "noUncheckedIndexedAccess": true,
+    // The provider guide's example runtime is plain .mjs; type-check it against the real contracts.
+    "allowJs": true,
+    "checkJs": true
+  },
+  "include": ["extensions/**/*.ts", "test/fixtures/portable-runtime.mjs"]
+}

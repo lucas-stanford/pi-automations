@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Automations — A standardized way to tell AI agents when to act.</title>
+<meta name="description" content="A standardized way to tell AI agents when to act.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="text/markdown" href="index.md" title="This page as Markdown">
+<script>(function(){var d=document.documentElement;d.className=d.className.replace("no-js","js");try{var t=localStorage.getItem("aa-theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">Agent Automations</a>
+    <div class="search" role="search">
+      <label class="search-box">
+        <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span>
+        <span class="visually-hidden">Search the documentation</span>
+        <input id="search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-controls="search-results" aria-expanded="false" aria-autocomplete="list" role="combobox">
+        <kbd class="search-kbd">Ctrl K</kbd>
+      </label>
+      <div id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></div>
+    </div>
+    <div class="topbar-right">
+      <a class="repo-link" href="https://github.com/OWNER/pi-automations" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span>OWNER/pi-automations</span></a>
+      <button type="button" class="theme-toggle" aria-label="Switch to light theme" hidden><span class="icon-sun"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></span><span class="icon-moon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></span></button>
+    </div>
+  </div>
+</header>
+<details class="mobile-nav">
+  <summary><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="mobile-nav-current">Overview</span></summary>
+  <nav aria-label="Documentation"><div class="nav-group"><ul><li><a href="index.html" aria-current="page">Overview</a></li><li><a href="specification.html">Specification</a></li><li><a href="validation.html">Validation messages</a></li><li><a href="hosts.html">Hosts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For automation authors</p><ul><li><a href="quickstart.html">Quickstart</a></li><li><a href="best-practices.html">Best practices</a></li><li><a href="watch-scripts.html">Watch scripts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For host implementors</p><ul><li><a href="adding-support.html">Adding automations support</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Agent skill</p><ul><li><a href="skill.html">SKILL.md</a></li><li><a href="skill-checklist.html">references/checklist.md</a></li><li><a href="skill-specification.html">references/specification.md</a></li><li><a href="skill-watch-scripts.html">references/watch-scripts.md</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Optional</p><ul><li><a href="flowcharts.html">Flowcharts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">pi-automations</p><ul><li><a href="pi-automations.html">About pi-automations</a></li><li><a href="quickstart-pi.html">Quickstart with pi</a></li><li><a href="reporting.html">Progress and notes</a></li><li><a href="pi-implementation.html">How it implements the spec</a></li></ul></div></nav>
+</details>
+<div class="layout">
+  <aside class="sidebar">
+    <nav aria-label="Documentation"><div class="nav-group"><ul><li><a href="index.html" aria-current="page">Overview</a></li><li><a href="specification.html">Specification</a></li><li><a href="validation.html">Validation messages</a></li><li><a href="hosts.html">Hosts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For automation authors</p><ul><li><a href="quickstart.html">Quickstart</a></li><li><a href="best-practices.html">Best practices</a></li><li><a href="watch-scripts.html">Watch scripts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">For host implementors</p><ul><li><a href="adding-support.html">Adding automations support</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Agent skill</p><ul><li><a href="skill.html">SKILL.md</a></li><li><a href="skill-checklist.html">references/checklist.md</a></li><li><a href="skill-specification.html">references/specification.md</a></li><li><a href="skill-watch-scripts.html">references/watch-scripts.md</a></li></ul></div><div class="nav-group"><p class="nav-group-label">Optional</p><ul><li><a href="flowcharts.html">Flowcharts</a></li></ul></div><div class="nav-group"><p class="nav-group-label">pi-automations</p><ul><li><a href="pi-automations.html">About pi-automations</a></li><li><a href="quickstart-pi.html">Quickstart with pi</a></li><li><a href="reporting.html">Progress and notes</a></li><li><a href="pi-implementation.html">How it implements the spec</a></li></ul></div></nav>
+  </aside>
+  <main id="content" class="content" tabindex="-1">
+    <article>
+      <header class="page-header">
+        
+        <div class="page-title-row">
+          <h1>Agent Automations Overview</h1>
+          <div class="page-actions">
+            <button type="button" class="copy-page" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg><span class="copy-page-label">Copy page</span></button>
+            <details class="page-menu">
+              <summary aria-label="More ways to read this page"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg></summary>
+              <div class="page-menu-items">
+                <a href="index.md">View as Markdown</a>
+                <a href="llms.txt">llms.txt</a>
+              </div>
+            </details>
+          </div>
+        </div>
+        <p class="lead">A standardized way to tell AI agents when to act.</p>
+      </header>
+      <div class="prose">
+<h2 id="what-are-agent-automations"><a class="heading-anchor" href="#what-are-agent-automations" aria-label="Link to this section: What are Agent Automations?"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>What are Agent Automations?</h2>
+<p>Agent Automations are a small, open file format for running an AI agent without anyone typing a prompt: on a schedule, when a script finds new work, or on demand.</p>
+<p>An automation is a folder containing an <code>AUTOMATION.md</code> file. Its YAML frontmatter says <strong>when</strong> the agent runs and <strong>what runs before and after it</strong>: scripts or short prompts called hooks. Its Markdown body is the prompt for every run. The folder can also hold the scripts the hooks call and any other file the body refers to.</p>
+<div class="code-block"><div class="code-body"><button type="button" class="copy-code" aria-label="Copy code" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></button><pre tabindex="0"><code class="language-tree">daily-briefing/
+├── AUTOMATION.md        <span class="tok-com"># Required: frontmatter and body</span>
+├── scripts/             <span class="tok-com"># Optional: hook and watch scripts, by relative path</span>
+│   └── overnight_counts.sh
+└── ...                  <span class="tok-com"># Any other files the body refers to</span></code></pre></div></div>
+<p>This one runs at 07:00 on weekdays and can also be run by hand. It starts from numbers a script gathered without a model call:</p>
+<div class="code-block has-head"><div class="code-head"><span class="code-title">~/.agents/automations/daily-briefing/AUTOMATION.md</span></div><div class="code-body"><button type="button" class="copy-code" aria-label="Copy code" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></button><pre tabindex="0"><code class="language-markdown"><span class="tok-punct">---</span>
+<span class="tok-key">name</span><span class="tok-punct">:</span> <span class="tok-str">daily-briefing</span>
+<span class="tok-key">description</span><span class="tok-punct">:</span> <span class="tok-str">Every weekday morning, summarise what changed overnight and what needs attention today.</span>
+<span class="tok-key">timeout</span><span class="tok-punct">:</span> <span class="tok-str">10m</span>
+<span class="tok-key">on</span><span class="tok-punct">:</span>
+  <span class="tok-key">schedule</span><span class="tok-punct">:</span>
+    <span class="tok-key">cron</span><span class="tok-punct">:</span> <span class="tok-str">&quot;0 7 * * MON-FRI&quot;</span>
+    <span class="tok-key">timezone</span><span class="tok-punct">:</span> <span class="tok-str">America/New_York</span>
+  <span class="tok-key">manual</span><span class="tok-punct">:</span> <span class="tok-kw">true</span>
+<span class="tok-key">hooks</span><span class="tok-punct">:</span>
+  <span class="tok-key">pre</span><span class="tok-punct">:</span>
+    <span class="tok-punct">- </span><span class="tok-key">script</span><span class="tok-punct">:</span> <span class="tok-str">scripts/overnight_counts.sh</span>
+<span class="tok-punct">---</span>
+
+<span class="tok-head"># Daily briefing</span>
+
+Start from the counts in the input block below. If every count is zero, say so in one
+line and stop. Otherwise list what needs attention, most urgent first, and finish with
+the three things worth doing today.</code></pre></div></div>
+<h2 id="why-agent-automations"><a class="heading-anchor" href="#why-agent-automations" aria-label="Link to this section: Why Agent Automations?"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Why Agent Automations?</h2>
+<p>Most agent work still starts with a person typing a prompt. Agent products that add a scheduler each invent their own file and rules. Agent Automations define one file that any host can run:</p>
+<ul>
+<li>The schedule travels with the prompt, in a file you can copy to any other host that implements the format.</li>
+<li>Watch scripts and pre hooks run without a model and decide whether there is anything to do, so an hour with no new work costs no tokens.</li>
+<li>Every run leaves a record of when it ran, how it ended, what each hook did and what it published.</li>
+<li>A new automation stays off until you have seen exactly what it would run and armed it, wherever it came from.</li>
+</ul>
+<h2 id="how-do-agent-automations-work"><a class="heading-anchor" href="#how-do-agent-automations-work" aria-label="Link to this section: How do Agent Automations work?"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>How do Agent Automations work?</h2>
+<p>A host, the program that implements the format, takes every automation through the same stages. Only the frontmatter is read until a run starts.</p>
+<ol>
+<li>Discovery: the host scans <code>.agents/automations/*/AUTOMATION.md</code> in your home directory and in the repository you are working in, and checks every file against the <a href="specification.html">specification</a>.</li>
+<li>Consent: every automation, in your home directory or in a repository, stays <strong>off</strong> until you review a preview and arm it. Editing the file or any of its scripts returns it to off.</li>
+<li>Trigger: an armed automation starts on its cron schedule, when its watch script reports new work, or when a person runs it.</li>
+<li>Pre hooks: scripts and prompts run in order. The host hands their output to the body as data, and any of them can skip the run.</li>
+<li>Body: the agent gets the body as its prompt in a fresh session, followed by the pre-hook output.</li>
+<li>Post hooks: they always run, see what the body answered and how the run ended, and can record or notify.</li>
+<li>Record: the run ends as <code>ok</code>, <code>skipped</code>, <code>failed</code>, <code>missed</code> or <code>aborted</code>, and the record says why.</li>
+</ol>
+<h2 id="where-can-i-use-agent-automations"><a class="heading-anchor" href="#where-can-i-use-agent-automations" aria-label="Link to this section: Where can I use Agent Automations?"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Where can I use Agent Automations?</h2>
+<p>An <code>AUTOMATION.md</code> does nothing on its own: a host has to discover it, keep the schedule and run it. The <a href="hosts.html">Hosts</a> page lists the known hosts and what a host may add; <a href="pi-automations.html">pi-automations</a>, for the <a href="https://pi.dev" class="external" rel="noopener">pi coding agent</a>, is the reference host. <a href="adding-support.html">Adding automations support</a> explains how to implement the format in another agent.</p>
+<h2 id="format-version"><a class="heading-anchor" href="#format-version" aria-label="Link to this section: Format version"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Format version</h2>
+<p>This site describes <strong>Draft 0.2</strong>. The frontmatter has a closed list of eight fields. A conforming host refuses anything it does not implement, names it, and says in one line what would fix it, so it never runs something different from what the author wrote. Draft 0.2 adds one optional field to Draft 0.1, <a href="flowcharts.html#flow-field"><code>flow</code></a>, part of the optional <a href="flowcharts.html">flowcharts</a>, so every Draft 0.1 file is still valid.</p>
+<h2 id="get-started"><a class="heading-anchor" href="#get-started" aria-label="Link to this section: Get started"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></a>Get started</h2>
+<div class="cards">
+<a class="card" href="quickstart.html"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19c1.5-4 4.5-7.5 9-10l3-3c1.2-1.2 3-1 3-1s.2 1.8-1 3l-3 3c-2.5 4.5-6 7.5-10 9"/><path d="M9 11 6.5 9.5 3 11l3.5 1M13 15l1.5 2.5L13 21l-1-3.5"/></svg></span><span class="card-title">Quickstart</span><span class="card-desc">Create your first automation, run it and read its record in five minutes.</span></a>
+<a class="card" href="specification.html"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9.5 13.5 8 15l1.5 1.5M14.5 13.5 16 15l-1.5 1.5"/></svg></span><span class="card-title">Specification</span><span class="card-desc">The complete AUTOMATION.md format, with every field, trigger, hook and rule.</span></a>
+<a class="card" href="hosts.html"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="7" rx="2"/><rect x="4" y="13" width="16" height="7" rx="2"/><path d="M8 7.5h.01M8 16.5h.01"/></svg></span><span class="card-title">Hosts</span><span class="card-desc">Where automations run today, and what a host may add.</span></a>
+</div>
+      </div>
+      <nav class="pager" aria-label="Previous and next page"><span></span><a class="pager-next" href="specification.html" rel="next"><span class="pager-text"><span class="pager-label">Next</span><span class="pager-title">Specification</span></span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 7l5 5-5 5"/></svg></a></nav>
+    </article>
+    <footer class="site-footer">
+      <p>Agent Automations · Draft 0.2 · <a href="llms.txt">llms.txt</a> · <a href="https://github.com/OWNER/pi-automations" rel="noopener">Source</a></p>
+    </footer>
+  </main>
+  <aside class="toc-column"><nav class="toc" aria-label="On this page"><p class="toc-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h10M4 18h13"/></svg><span>On this page</span></p><ul><li class="toc-l2"><a href="#what-are-agent-automations">What are Agent Automations?</a></li><li class="toc-l2"><a href="#why-agent-automations">Why Agent Automations?</a></li><li class="toc-l2"><a href="#how-do-agent-automations-work">How do Agent Automations work?</a></li><li class="toc-l2"><a href="#where-can-i-use-agent-automations">Where can I use Agent Automations?</a></li><li class="toc-l2"><a href="#format-version">Format version</a></li><li class="toc-l2"><a href="#get-started">Get started</a></li></ul></nav></aside>
+</div>
+<script type="application/json" id="page-markdown">"# Agent Automations Overview\n\n> A standardized way to tell AI agents when to act.\n\n## What are Agent Automations?\n\nAgent Automations are a small, open file format for running an AI agent without anyone typing a prompt: on a schedule, when a script finds new work, or on demand.\n\nAn automation is a folder containing an `AUTOMATION.md` file. Its YAML frontmatter says **when** the agent runs and **what runs before and after it**: scripts or short prompts called hooks. Its Markdown body is the prompt for every run. The folder can also hold the scripts the hooks call and any other file the body refers to.\n\n```tree\ndaily-briefing/\n├── AUTOMATION.md        # Required: frontmatter and body\n├── scripts/             # Optional: hook and watch scripts, by relative path\n│   └── overnight_counts.sh\n└── ...                  # Any other files the body refers to\n```\n\nThis one runs at 07:00 on weekdays and can also be run by hand. It starts from numbers a script gathered without a model call:\n\n```markdown automation title=\"~/.agents/automations/daily-briefing/AUTOMATION.md\"\n---\nname: daily-briefing\ndescription: Every weekday morning, summarise what changed overnight and what needs attention today.\ntimeout: 10m\non:\n  schedule:\n    cron: \"0 7 * * MON-FRI\"\n    timezone: America/New_York\n  manual: true\nhooks:\n  pre:\n    - script: scripts/overnight_counts.sh\n---\n\n# Daily briefing\n\nStart from the counts in the input block below. If every count is zero, say so in one\nline and stop. Otherwise list what needs attention, most urgent first, and finish with\nthe three things worth doing today.\n```\n\n## Why Agent Automations?\n\nMost agent work still starts with a person typing a prompt. Agent products that add a scheduler each invent their own file and rules. Agent Automations define one file that any host can run:\n\n- The schedule travels with the prompt, in a file you can copy to any other host that implements the format.\n- Watch scripts and pre hooks run without a model and decide whether there is anything to do, so an hour with no new work costs no tokens.\n- Every run leaves a record of when it ran, how it ended, what each hook did and what it published.\n- A new automation stays off until you have seen exactly what it would run and armed it, wherever it came from.\n\n## How do Agent Automations work?\n\nA host, the program that implements the format, takes every automation through the same stages. Only the frontmatter is read until a run starts.\n\n1. Discovery: the host scans `.agents/automations/*/AUTOMATION.md` in your home directory and in the repository you are working in, and checks every file against the [specification](specification.md).\n2. Consent: every automation, in your home directory or in a repository, stays **off** until you review a preview and arm it. Editing the file or any of its scripts returns it to off.\n3. Trigger: an armed automation starts on its cron schedule, when its watch script reports new work, or when a person runs it.\n4. Pre hooks: scripts and prompts run in order. The host hands their output to the body as data, and any of them can skip the run.\n5. Body: the agent gets the body as its prompt in a fresh session, followed by the pre-hook output.\n6. Post hooks: they always run, see what the body answered and how the run ended, and can record or notify.\n7. Record: the run ends as `ok`, `skipped`, `failed`, `missed` or `aborted`, and the record says why.\n\n## Where can I use Agent Automations?\n\nAn `AUTOMATION.md` does nothing on its own: a host has to discover it, keep the schedule and run it. The [Hosts](hosts.md) page lists the known hosts and what a host may add; [pi-automations](pi-automations.md), for the [pi coding agent](https://pi.dev), is the reference host. [Adding automations support](adding-support.md) explains how to implement the format in another agent.\n\n## Format version\n\nThis site describes **Draft 0.2**. The frontmatter has a closed list of eight fields. A conforming host refuses anything it does not implement, names it, and says in one line what would fix it, so it never runs something different from what the author wrote. Draft 0.2 adds one optional field to Draft 0.1, [`flow`](flowcharts.md#flow-field), part of the optional [flowcharts](flowcharts.md), so every Draft 0.1 file is still valid.\n\n## Get started\n\n\u003c!-- cards -->\n- [Quickstart](quickstart.md): Create your first automation, run it and read its record in five minutes.\n- [Specification](specification.md): The complete AUTOMATION.md format, with every field, trigger, hook and rule.\n- [Hosts](hosts.md): Where automations run today, and what a host may add.\n"</script>
+<script src="search-index.js" defer></script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>
