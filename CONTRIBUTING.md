@@ -42,22 +42,15 @@ guards this.
 how the extension behaves across session replacement; it needs network access and is not part of
 `npm test`. Update `docs/pi-sdk-lifecycle-matrix.json` with its output when you add a version.
 
-## The spec site (`site/`)
+## The specification and agent skills
 
-`site/content/*.md` is the Agent Automations specification site. Pages in the `pi-automations`
-group (`group: pi-automations`) are about this host; every other page stays host-neutral, with no
-`pa`, `/automations` or pi-automations details beyond a link into that group (`test/site.test.ts`
-checks). `npm run site` rebuilds `site/dist/`,
-which is committed so it opens straight from disk. `npm run site:check` (also part of `npm test`)
-parses every example on the site and in the agent skill with the real parser, checks every link,
-and fails if `site/dist/` is not what a fresh build produces.
+The [Agent Automations specification and site](https://github.com/lucas-stanford/agent-automations)
+live in a separate repository.
 
-Two agent skills ship in the package. `skills/agent-automations` is host-neutral: it never names
-`pa`, pi or pi-automations (`test/skills.test.ts` checks). The site build renders its SKILL.md and
-references as pages under "Agent skill", copies the folder unchanged into `site/dist/skills/` and
-zips it beside the copy. Edit the skill, not the pages. `skills/pi-automations` covers this host
-(`pa`, consent, defaults, reporting); it is not published on the site, and every `pa` verb it
-names must exist.
+Two agent skills still ship in this package. `skills/agent-automations` is a bundled snapshot of
+the host-neutral skill: it never names `pa`, pi or pi-automations (`test/skills.test.ts` checks).
+Update it from the specification repository when the skill changes. `skills/pi-automations` covers
+this host (`pa`, consent, defaults, reporting); every `pa` verb it names must exist.
 
 ## The Automation Manager (`packages/manager`)
 

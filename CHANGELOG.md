@@ -36,9 +36,8 @@ First public release (0.1.0, not yet published).
 - A plugin API (observers, actions, flowchart renderers, host services), loaded only from the
   person's own config, and the bundled Automation Manager plugin.
 - Optional flowchart drawing with `fm render`.
-- A static site for the Agent Automations Draft 0.2 specification in `site/` (`npm run site`, opens
-  from disk), with a Markdown copy of every page and `llms.txt`. The tests parse every example on it
-  with the real parser.
+- The [Agent Automations Draft 0.2 specification and site](https://github.com/lucas-stanford/agent-automations)
+  live in their own repository, with a Markdown copy of every page and `llms.txt`.
 - The `agent-automations` Agent Skill in `skills/`, shipped in the package and declared in the `pi`
   manifest: how to choose a trigger, write the file, gather facts in hooks, write watch scripts and
   ask a run for receipts, with references, three templates and a review checklist. It names no host,

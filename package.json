@@ -56,9 +56,7 @@
     "typecheck": "npm run build && npm run typecheck:extensions",
     "prepublishOnly": "npm run build && npm run typecheck && npm test",
     "typecheck:extensions": "tsc -p tsconfig.extensions.json",
-    "verify:sdk-lifecycle": "node scripts/run-sdk-lifecycle-matrix.mjs",
-    "site": "node site/build.mjs",
-    "site:check": "vitest run test/site.test.ts"
+    "verify:sdk-lifecycle": "node scripts/run-sdk-lifecycle-matrix.mjs"
   },
   "dependencies": {
     "croner": "^9",

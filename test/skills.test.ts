@@ -5,11 +5,10 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-// @ts-expect-error -- a plain ESM build script with no type declarations
-import { splitFrontMatter } from "../site/build.mjs";
 import { SUBS } from "../src/commands.js";
 import { IN_RUN_VERBS } from "../src/progress-cli.js";
 import { mentionsPi } from "./helpers/pi-only.js";
+import { readSkillFrontmatter } from "./helpers/skill-frontmatter.js";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const PORTABLE = path.join(ROOT, "skills", "agent-automations");
@@ -52,10 +51,7 @@ describe("the agent-automations skill", () => {
 });
 
 describe("the pi-automations skill", () => {
-  const skill = splitFrontMatter(readFileSync(path.join(PI_SKILL, "SKILL.md"), "utf8")) as {
-    data: Record<string, unknown>;
-    body: string;
-  };
+  const skill = readSkillFrontmatter(readFileSync(path.join(PI_SKILL, "SKILL.md"), "utf8"));
 
   it("has Agent Skills frontmatter and points to the format skill", () => {
     expect(skill.data.name).toBe(path.basename(PI_SKILL));

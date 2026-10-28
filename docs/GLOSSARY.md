@@ -1,7 +1,8 @@
 # Glossary
 
-One name for each thing, in prose, UI text, messages and comments. The specification
-(`site/content/specification.md`) wins over this file; after it, the words the `/automations` page and
+One name for each thing, in prose, UI text, messages and comments. The
+[specification](https://github.com/lucas-stanford/agent-automations/blob/main/site/content/specification.md)
+wins over this file; after it, the words the `/automations` page and
 `pa` show. Code identifiers, JSON fields, config keys, error codes and file names keep their names
 (`trust.ts`, `flowTracking`, `NOT_AN_EDGE`, `requestCancel`, `detached.json`).
 

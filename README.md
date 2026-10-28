@@ -207,8 +207,8 @@ the watcher's job files.
 
 ## Documentation
 
-- [site/](site/): the Agent Automations Draft 0.2 specification as a static site. `npm run site`
-  builds it into `site/dist/`. Open `site/dist/index.html` directly; it needs no server.
+- [Agent Automations](https://github.com/lucas-stanford/agent-automations): the Draft 0.2
+  specification and its documentation site.
 - [skills/agent-automations](skills/agent-automations/SKILL.md): a host-neutral Agent Skill that
   teaches an agent to write automations for any host of the format. The spec site publishes it, and
   other agents can copy the folder into `.agents/skills/`.
