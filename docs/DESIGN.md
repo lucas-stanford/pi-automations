@@ -50,7 +50,12 @@ would otherwise run on a schedule with the person's credentials without anyone r
 an automation and enabling it again does not disarm it. Any other edit does.
 
 Consent is pinned to a SHA-256 over `AUTOMATION.md` and every script it can run (watch script
-first, then hooks), with each relative path hashed beside its bytes. Editing any of them returns
+first, then hooks), with each relative path hashed beside its bytes. The local modules those scripts
+import come next, sorted. A module is any file named by a `./` or `../` path in `import … from`,
+`import(…)`, `export … from` or `require(…)` in a `.mjs`, `.js` or `.cjs` file, followed through
+any number of files. Packages, and files outside the automation folder, are not pinned. aat hashes
+the same bytes, and an automation that imports nothing local keeps the digest it always had.
+Editing any of them returns
 the automation to `off`, and the notice names the file that changed (per-file hashes are stored at
 arm time). Consent to a repository automation also expires (`consentExpiry`, 30 days); consent to a
 user automation does not, so a user automation's schedule keeps running until its bytes change or

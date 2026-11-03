@@ -20,7 +20,9 @@ First public release (0.1.0, not yet published).
   `on.watch`, a script that starts a run only when it finds new work.
 - Script and prompt hooks before and after the body, with pre-hook output passed as data.
 - Consent for every automation, pinned to a hash of the file and its scripts: nothing runs until a
-  person has seen its preview and armed it.
+  person has seen its preview and armed it. The hash also covers the local modules those scripts
+  import (`./` and `../` paths in `.mjs`, `.js` and `.cjs` files), so a shared helper cannot change
+  without disarming. It matches aat's digest byte for byte.
 - Background runs and the watcher (`pa watcher start|stop|status`) on Windows (Task Scheduler),
   macOS (launchd) and Linux (systemd user timer or cron), plus `pa serve` for containers.
 - Run records with the outcome, error kind, hook results, the body's answer and what the run
