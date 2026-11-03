@@ -72,6 +72,19 @@ export interface FlowPane {
   lines: string[];
 }
 
+/** Why the graph pane has nothing to draw. */
+export function noGraphReason(view: RunView): string {
+  if (view.flow) return "its progress cannot be read right now";
+  // A record with no start stopped at a check before its first hook (not armed, no model, still
+  // running), so tracking never began, whatever its AUTOMATION.md holds. Asking for a chart then
+  // sends the reader to fix a file that is fine.
+  const rec = view.record;
+  if (rec && !rec.startedAt) {
+    return `this run stopped before it started, so nothing was tracked: ${rec.reason ?? rec.outcome}`;
+  }
+  return "this run is not tracked on a flowchart — add a ```mermaid flowchart to its AUTOMATION.md";
+}
+
 export function createStatusWindow(host: StatusWindowHost): WindowComponent {
   const theme = host.theme ?? PLAIN_THEME;
 
@@ -250,14 +263,7 @@ export function createStatusWindow(host: StatusWindowHost): WindowComponent {
           const flowPane = host.flowView?.(entry.view, w);
           const body = flowPane
             ? flowPane.lines
-            : [
-                theme.fg(
-                  "muted",
-                  entry.view.flow
-                    ? "its progress cannot be read right now"
-                    : "this run is not tracked on a flowchart — add a ```mermaid flowchart to its AUTOMATION.md",
-                ),
-              ];
+            : [theme.fg("muted", noGraphReason(entry.view))];
           const shown = windowOf(body);
           return page(
             `${strong(theme, entry.view.name)}${theme.fg("muted", ` · ${flowPane?.kind === "graph" ? "flowchart" : "steps"}`)}`,

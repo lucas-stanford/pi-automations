@@ -47,4 +47,6 @@ export interface FlowPane {
     kind: "graph" | "list" | "none";
     lines: string[];
 }
+/** Why the graph pane has nothing to draw. */
+export declare function noGraphReason(view: RunView): string;
 export declare function createStatusWindow(host: StatusWindowHost): WindowComponent;

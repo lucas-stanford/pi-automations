@@ -1,7 +1,7 @@
 // Finding pi from a plain node process, where pi's loader aliases do not exist. Order: the parent's
 // `PI_AUTOMATIONS_PI_MODULE`, `piModule` in config, resolution, `pi` on PATH, the npm global root.
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, readlinkSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readlinkSync, realpathSync, statSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 /** The one package name this module will ever load. */
@@ -63,6 +63,39 @@ function targetInsideShim(file) {
     catch {
         return undefined;
     }
+}
+/**
+ * The pi package behind a wrapper script that runs another launcher by absolute path, as Homebrew's
+ * `bin/pi` does: `exec "/opt/homebrew/Cellar/pi-coding-agent/<v>/libexec/bin/pi" "$@"`, where that
+ * file links to the package's `dist/bundle/cli.js`. Only paths that exist and lead into a real pi
+ * package count.
+ */
+function packageBehindWrapper(file) {
+    let text;
+    try {
+        text = readFileSync(file, "utf8");
+    }
+    catch {
+        return undefined;
+    }
+    if (text.length > 64 * 1024)
+        return undefined;
+    for (const m of text.matchAll(/"([^"\r\n]+)"|'([^'\r\n]+)'|\bexec\s+([^\s"'\\]+)/g)) {
+        const candidate = m[1] ?? m[2] ?? m[3];
+        if (!candidate || !path.isAbsolute(candidate))
+            continue;
+        try {
+            if (!statSync(candidate).isFile())
+                continue;
+            const root = packageRootAbove(path.dirname(realpathSync(candidate)), 8);
+            if (root)
+                return root;
+        }
+        catch {
+            // Not there, or unreadable: try the next path the script names.
+        }
+    }
+    return undefined;
 }
 /** The npm layouts a launcher can sit in. */
 function packageBesideLauncher(launcherDir) {
@@ -152,6 +185,9 @@ export function findPiModule(opts = {}) {
                 if (root)
                     return { dir: root, via: "path" };
             }
+            const wrapped = packageBehindWrapper(launcher);
+            if (wrapped)
+                return { dir: wrapped, via: "path" };
         }
     }
     catch {

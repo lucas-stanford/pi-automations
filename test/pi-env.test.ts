@@ -12,12 +12,13 @@ const EXTENSION = path.join(HERE, "..", "src", "hosts", "pi", "extension.ts");
 
 const KEY = "PI_AUTOMATIONS_PI_MODULE";
 
-type Locator = () => { dir?: string } | undefined;
+type Locator = (opts?: { configured?: string | undefined }) => { dir?: string } | undefined;
 
 /** The real function, compiled out of the real file. */
 function loadPiEnv(): (
   env: NodeJS.ProcessEnv,
   findPiModule: Locator,
+  config?: { piModule?: string },
 ) => NodeJS.ProcessEnv {
   const src = readFileSync(EXTENSION, "utf8");
   const from = src.indexOf("function piEnv(");
@@ -26,20 +27,22 @@ function loadPiEnv(): (
   expect(to).toBeGreaterThan(from);
 
   const js = transformSync(src.slice(from, to), { loader: "ts" }).code;
-  // `process` and the two imports it closes over are supplied, so nothing here touches the real
-  // environment or the real locator.
+  // `process`, the two imports and the config it closes over are supplied, so nothing here touches
+  // the real environment, the real locator or the real config.
   const build = new Function(
     "process",
     "PI_MODULE_ENV",
     "findPiModule",
+    "config",
     `${js}\nreturn piEnv;`,
   ) as (
     proc: { env: NodeJS.ProcessEnv },
     key: string,
     findPiModule: Locator,
+    config: () => { piModule?: string },
   ) => () => NodeJS.ProcessEnv;
 
-  return (env, findPiModule) => build({ env }, KEY, findPiModule)();
+  return (env, findPiModule, config = {}) => build({ env }, KEY, findPiModule, () => config)();
 }
 
 describe("the launch environment a spawned run is given", () => {
@@ -86,6 +89,23 @@ describe("the launch environment a spawned run is given", () => {
     expect(out.PATH).toBe("/owned/path");
     // The caller's own environment is never mutated.
     expect(env[KEY]).toBeUndefined();
+  });
+
+  it("hands the locator piModule from config, so a background run finds that pi", () => {
+    const env: NodeJS.ProcessEnv = { PATH: "/owned/path" };
+    let asked: string | undefined;
+
+    const out = piEnv(
+      env,
+      (opts) => {
+        asked = opts?.configured;
+        return { dir: opts?.configured };
+      },
+      { piModule: "/owned/configured-pi" },
+    );
+
+    expect(asked).toBe("/owned/configured-pi");
+    expect(out[KEY]).toBe("/owned/configured-pi");
   });
 
   it("changes nothing when the locator finds no pi", () => {

@@ -74,8 +74,9 @@ export interface PiOwner {
 }
 
 /** Create pi's ModelRuntime once, lazily, for both halves of the owner. */
-export async function loadPiOwner(agentDir?: string): Promise<PiOwner> {
-  const pi = (await importPi()) as typeof import("@earendil-works/pi-coding-agent");
+/** `piModule` is the operator's `piModule` from config, tried after the parent's hint. */
+export async function loadPiOwner(agentDir?: string, piModule?: string): Promise<PiOwner> {
+  const pi = (await importPi({ configured: piModule })) as typeof import("@earendil-works/pi-coding-agent");
   const runtime = await pi.ModelRuntime.create();
 
   return {
@@ -92,8 +93,8 @@ function unavailableServices(reason: string): PiOwner {
   };
 }
 
-export async function loadPiRuntime(): Promise<ModelRuntimeLike> {
-  return (await loadPiOwner()).catalog;
+export async function loadPiRuntime(piModule?: string): Promise<ModelRuntimeLike> {
+  return (await loadPiOwner(undefined, piModule)).catalog;
 }
 
 export interface PiModelChoice {
@@ -109,8 +110,8 @@ export interface PiModelChoices {
 }
 
 /** The models pi can run, read fresh each call. */
-export async function listPiModels(cwd: string): Promise<PiModelChoices> {
-  const pi = (await importPi()) as typeof import("@earendil-works/pi-coding-agent");
+export async function listPiModels(cwd: string, piModule?: string): Promise<PiModelChoices> {
+  const pi = (await importPi({ configured: piModule })) as typeof import("@earendil-works/pi-coding-agent");
   const runtime = await pi.ModelRuntime.create();
   const choice = (m: { provider: unknown; id: string; name?: string }, thinking?: string): PiModelChoice => ({
     value: `${String(m.provider)}/${m.id}${thinking ? `:${thinking}` : ""}`,
@@ -251,6 +252,8 @@ async function openPiSession(
 
 export interface PiRuntimeOptions {
   agentDir?: string;
+  /** `piModule` from config, read when the SDK first loads. */
+  piModule?: () => string | undefined;
   // How this runtime's pi owner is obtained. Injected by tests; production loads the SDK lazily.
   loadServices?: () => Promise<PiOwner>;
 }
@@ -294,7 +297,7 @@ function applyOverlay(overlay: EnvironmentOverlay | undefined): () => void {
 
 /** A pi-backed {@link AutomationRuntime}. The SDK loads on the first `resolveModel`. */
 export function createPiRuntime(options: PiRuntimeOptions = {}): AutomationRuntime {
-  const load = options.loadServices ?? (() => loadPiOwner(options.agentDir));
+  const load = options.loadServices ?? (() => loadPiOwner(options.agentDir, options.piModule?.()));
 
   const owned = new WeakMap<RuntimeModelRef, unknown>();
 

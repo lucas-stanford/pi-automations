@@ -37,8 +37,9 @@ export function adaptPiRuntime(rt) {
     };
 }
 /** Create pi's ModelRuntime once, lazily, for both halves of the owner. */
-export async function loadPiOwner(agentDir) {
-    const pi = (await importPi());
+/** `piModule` is the operator's `piModule` from config, tried after the parent's hint. */
+export async function loadPiOwner(agentDir, piModule) {
+    const pi = (await importPi({ configured: piModule }));
     const runtime = await pi.ModelRuntime.create();
     return {
         catalog: adaptPiRuntime(runtime),
@@ -52,12 +53,12 @@ function unavailableServices(reason) {
         openSession: () => Promise.reject(hostError(reason)),
     };
 }
-export async function loadPiRuntime() {
-    return (await loadPiOwner()).catalog;
+export async function loadPiRuntime(piModule) {
+    return (await loadPiOwner(undefined, piModule)).catalog;
 }
 /** The models pi can run, read fresh each call. */
-export async function listPiModels(cwd) {
-    const pi = (await importPi());
+export async function listPiModels(cwd, piModule) {
+    const pi = (await importPi({ configured: piModule }));
     const runtime = await pi.ModelRuntime.create();
     const choice = (m, thinking) => ({
         value: `${String(m.provider)}/${m.id}${thinking ? `:${thinking}` : ""}`,
@@ -206,7 +207,7 @@ function applyOverlay(overlay) {
 }
 /** A pi-backed {@link AutomationRuntime}. The SDK loads on the first `resolveModel`. */
 export function createPiRuntime(options = {}) {
-    const load = options.loadServices ?? (() => loadPiOwner(options.agentDir));
+    const load = options.loadServices ?? (() => loadPiOwner(options.agentDir, options.piModule?.()));
     const owned = new WeakMap();
     // The catalog, created once; a load failure is cached as a catalog that reports why.
     let ownerOnce;
