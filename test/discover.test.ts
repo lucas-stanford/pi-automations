@@ -1,10 +1,11 @@
+import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { byKey, discover, located } from "../src/discover.js";
-import { digestOf, fileHashesOf, scriptHooks } from "../src/digest.js";
+import { digestOf, fileHashesOf, localSpecifiers, moduleFiles, scriptHooks } from "../src/digest.js";
 import { AutomationError } from "../src/errors.js";
 import { hasExecutableBit, resolveInterpreter, whichSync } from "../src/interpreters.js";
 import { key as makeKey } from "../src/paths.js";
@@ -381,6 +382,83 @@ describe("digestOf", () => {
       "scripts/overnight_counts.js",
     ]);
     expect(hashes["AUTOMATION.md"]).toMatch(/^sha256:/);
+  });
+
+  function watched(): { l: Located; dir: string } {
+    const root = path.join(tempDir("pi-digest-modules-"), "automations");
+    const dir = path.join(root, "watched");
+    const files: Record<string, string> = {
+      "AUTOMATION.md": `---\nname: watched\ndescription: Watches a queue.\non:\n  watch:\n    script: scripts/watch.mjs\n    every: 5m\n  manual: true\nhooks:\n  pre:\n    - script: scripts/pick.mjs\n---\n\nBody.\n`,
+      "scripts/watch.mjs": `// GitHub's clock and ours can disagree.\nimport { waiting } from "./queue.mjs";\nimport fs from "node:fs";\n`,
+      "scripts/pick.mjs": `import { waiting } from './queue.mjs';\nimport "./pick.mjs";\n`,
+      "scripts/queue.mjs": `const { gh } = require("./gh");\nexport * from "../shared/paths.mjs";\nimport("../../outside.mjs");\n`,
+      "scripts/gh.js": "module.exports = {};\n",
+      "shared/paths.mjs": "export const a = 1;\n",
+    };
+    for (const [rel, body] of Object.entries(files)) {
+      mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
+      writeFileSync(path.join(dir, rel), body);
+    }
+    return { l: locate(root, "watched"), dir };
+  }
+
+  it("pins the local modules the scripts import, through each other", () => {
+    const { l, dir } = watched();
+    expect(moduleFiles(l)).toEqual(["scripts/gh.js", "scripts/queue.mjs", "shared/paths.mjs"]);
+    expect(Object.keys(fileHashesOf(l)).sort()).toEqual([
+      "AUTOMATION.md",
+      "scripts/gh.js",
+      "scripts/pick.mjs",
+      "scripts/queue.mjs",
+      "scripts/watch.mjs",
+      "shared/paths.mjs",
+    ]);
+    const before = digestOf(l);
+    writeFileSync(path.join(dir, "shared/paths.mjs"), "export const a = 2;\n");
+    expect(digestOf(l)).not.toBe(before);
+  });
+
+  it("hashes the scripts in run order, then the modules, as aat does", () => {
+    const { l, dir } = watched();
+    const h = createHash("sha256").update(readFileSync(l.file));
+    for (const rel of [
+      "scripts/watch.mjs",
+      "scripts/pick.mjs",
+      "scripts/gh.js",
+      "scripts/queue.mjs",
+      "shared/paths.mjs",
+    ]) {
+      h.update(rel).update(Buffer.from([0])).update(readFileSync(path.join(dir, rel))).update(Buffer.from([0]));
+    }
+    expect(digestOf(l)).toBe(`sha256:${h.digest("hex")}`);
+  });
+
+  it("pins only the scripts when they import nothing local", () => {
+    const root = path.join(tempDir("pi-digest-packages-"), "automations");
+    mkdirSync(path.join(root, "packages", "scripts"), { recursive: true });
+    writeFileSync(
+      path.join(root, "packages", "AUTOMATION.md"),
+      `---\nname: packages\ndescription: Imports packages.\non:\n  manual: true\nhooks:\n  pre:\n    - script: scripts/a.mjs\n---\n\nBody.\n`,
+    );
+    writeFileSync(path.join(root, "packages", "scripts", "a.mjs"), `import fs from "node:fs";\nimport yaml from "yaml";\n`);
+    expect(Object.keys(fileHashesOf(locate(root, "packages"))).sort()).toEqual(["AUTOMATION.md", "scripts/a.mjs"]);
+  });
+
+  it("finds every import form and nothing else", () => {
+    const source = [
+      `import a from "./a.mjs";`,
+      `import "./b.mjs";`,
+      `export { c } from './c.mjs';`,
+      `const d = await import ( "./d.mjs" );`,
+      `const e = require('../e.cjs');`,
+      `// import x from "./commented.mjs"`,
+      `/* import y from "./blocked.mjs" */`,
+      `const p = "./just-a-string.mjs";`,
+      `const wherefrom = 1; somewherefrom "./not.mjs";`,
+      `log("it's" + 'fine');`,
+      `import f from "node:fs";`,
+    ].join("\n");
+    expect(localSpecifiers(source)).toEqual(["./a.mjs", "./b.mjs", "./c.mjs", "./d.mjs", "../e.cjs"]);
   });
 
   it("reports a missing file as null rather than throwing", () => {

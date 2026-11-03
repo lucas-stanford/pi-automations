@@ -93,8 +93,8 @@ flowchart TD
 
 Every automation is off until you arm it, whether it sits in your home directory or arrives in a
 repository (`<repo>/.agents/automations/`). To arm it, you read the consent preview of exactly what
-it runs and press `y`, or run `pa arm <name> --yes`. Consent is pinned to a hash of the file and its
-scripts, so editing any of them turns the automation off again.
+it runs and press `y`, or run `pa arm <name> --yes`. Consent is pinned to a hash of the file, its
+scripts and the local modules they import, so editing any of them turns the automation off again.
 
 ## `pa` quick reference
 

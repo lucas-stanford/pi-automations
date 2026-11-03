@@ -25,7 +25,7 @@ For the file format and how to write an automation, load the `agent-automations`
 ## Consent
 
 - Every automation, in `~/.agents/automations` or in a repository, is `off` until a person arms it.
-- Consent is pinned to a hash of `AUTOMATION.md` and every script it can run. Any edit to one of them turns it `off`, naming the file: `changed since armed: scripts/x.mjs`.
+- Consent is pinned to a hash of `AUTOMATION.md`, every script it can run, and the local modules those scripts import (`./` and `../` imports in `.mjs`, `.js` and `.cjs` files). Any edit to one of them turns it `off`, naming the file: `changed since armed: scripts/x.mjs`.
 - Consent to a repository automation expires after 30 days (`consentExpiry`). Consent to a user automation lasts until its files change or `pa disarm <name>`.
 - `pa enable <name>` and `pa disable <name>` flip `enabled:` in a user automation and keep the consent it had. For a repository automation, edit and commit the file; `pa disarm <name>` keeps it off on this machine.
 
