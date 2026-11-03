@@ -17,8 +17,9 @@ export interface PiOwner {
     openSession(start: PiSessionStart): Promise<SessionHandle>;
 }
 /** Create pi's ModelRuntime once, lazily, for both halves of the owner. */
-export declare function loadPiOwner(agentDir?: string): Promise<PiOwner>;
-export declare function loadPiRuntime(): Promise<ModelRuntimeLike>;
+/** `piModule` is the operator's `piModule` from config, tried after the parent's hint. */
+export declare function loadPiOwner(agentDir?: string, piModule?: string): Promise<PiOwner>;
+export declare function loadPiRuntime(piModule?: string): Promise<ModelRuntimeLike>;
 export interface PiModelChoice {
     value: string;
     name?: string;
@@ -30,9 +31,11 @@ export interface PiModelChoices {
     enabled: PiModelChoice[];
 }
 /** The models pi can run, read fresh each call. */
-export declare function listPiModels(cwd: string): Promise<PiModelChoices>;
+export declare function listPiModels(cwd: string, piModule?: string): Promise<PiModelChoices>;
 export interface PiRuntimeOptions {
     agentDir?: string;
+    /** `piModule` from config, read when the SDK first loads. */
+    piModule?: () => string | undefined;
     loadServices?: () => Promise<PiOwner>;
 }
 /** What a session start says when the model did not come from this runtime. */

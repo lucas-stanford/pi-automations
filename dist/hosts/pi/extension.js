@@ -620,7 +620,7 @@ export function createAutomationsExtension(pi, options) {
             // An inherited hint wins: the session that spawned us already decided which pi to use.
             if (process.env[PI_MODULE_ENV])
                 return process.env;
-            const here = findPiModule();
+            const here = findPiModule({ configured: config().piModule });
             return here?.dir ? { ...process.env, [PI_MODULE_ENV]: here.dir } : process.env;
         }
         catch {

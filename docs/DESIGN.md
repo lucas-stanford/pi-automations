@@ -161,8 +161,8 @@ enters the model's context of an unrelated conversation.
 
 `bin/fire.js` and `bin/tick.js` are plain node processes, where pi's loader aliases do not exist and
 pi is not installed beside the package. `pi-module.ts` finds the SDK from, in order, the path handed
-down by the parent, `piModule` in config, ordinary resolution, the `pi` on PATH and the npm global
-root. It accepts only a directory whose `package.json` names the pi package. Nothing under `src/` imports a
+down by the parent, `piModule` in config, ordinary resolution, the `pi` on PATH (through a wrapper
+script that execs another launcher, as Homebrew's does) and the npm global root. It accepts only a directory whose `package.json` names the pi package. Nothing under `src/` imports a
 pi value at module scope; the one lazy loader is the pi runtime provider.
 
 `dist/` is committed because pi installs git packages with `npm install --omit=dev`, which cannot

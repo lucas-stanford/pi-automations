@@ -509,6 +509,23 @@ describe("createStatusWindow — the graph view", () => {
     p.win.dispose();
   });
 
+  it("says why a run that stopped before it started has no flowchart, instead of asking for one", () => {
+    // Skipped at the model check: no hook ran, so tracking never began, chart or no chart.
+    const h = harness();
+    const id = h.registry.addAttached({ located: located("early"), trigger: "watch", timeoutMs: 1000 });
+    h.registry.applyEvent(id, {
+      event: "record",
+      record: { ...record("early"), outcome: "skipped", reason: "pi: cannot find pi" },
+    });
+    h.win.handleInput("\r");
+    h.win.handleInput("g");
+    const text = h.win.render(120).join("\n");
+    expect(text).toContain("stopped before it started");
+    expect(text).toContain("pi: cannot find pi");
+    expect(text).not.toContain("```mermaid");
+    h.win.dispose();
+  });
+
   it("has no o key any more: fm no longer has a web page to open", () => {
     const h = tracked();
     h.win.handleInput("\r");

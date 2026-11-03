@@ -1,7 +1,9 @@
 /** Finding pi from a background run. */
 
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { mkdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import {
@@ -16,6 +18,8 @@ import {
   resetPiCache,
 } from "../src/pi-module.js";
 import { tempDir } from "./helpers/temp.js";
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 /** A directory that really is the pi package, as far as `package.json` is concerned. */
 function makePiPackage(root: string): string {
@@ -132,6 +136,51 @@ describe("findPiModule", () => {
     expect(found).toEqual({ dir, via: "npm-root" });
   });
 
+  /**
+   * Homebrew's layout: `bin/pi` links to a bash wrapper that execs `libexec/bin/pi`, which links to
+   * the package's `dist/bundle/cli.js`. Nothing in the wrapper names `node_modules`.
+   */
+  function brewInstall(root: string, wrapper: (libexecPi: string) => string): string {
+    const cellar = path.join(root, "Cellar", "pi-coding-agent", "1.4.0");
+    const dir = makePiPackage(path.join(cellar, "libexec", "lib"));
+    mkdirSync(path.join(dir, "dist", "bundle"), { recursive: true });
+    writeFileSync(path.join(dir, "dist", "bundle", "cli.js"), "#!/usr/bin/env node\n");
+    mkdirSync(path.join(cellar, "libexec", "bin"), { recursive: true });
+    const libexecPi = path.join(cellar, "libexec", "bin", "pi");
+    symlinkSync("../lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", libexecPi);
+    mkdirSync(path.join(cellar, "bin"), { recursive: true });
+    writeFileSync(path.join(cellar, "bin", "pi"), wrapper(libexecPi));
+    mkdirSync(path.join(root, "bin"), { recursive: true });
+    symlinkSync("../Cellar/pi-coding-agent/1.4.0/bin/pi", path.join(root, "bin", "pi"));
+    return dir;
+  }
+
+  it.skipIf(process.platform === "win32")("follows a wrapper script to the launcher it execs — the Homebrew layout", () => {
+    const root = tempDir("pa-pi-brew-");
+    const dir = brewInstall(root, (target) => `#!/bin/bash\nPI_SKIP_VERSION_CHECK="1" exec "${target}"  "$@"\n`);
+    const found = findPiModule({ env: {}, which: () => path.join(root, "bin", "pi"), npmRoot: () => undefined });
+    expect(found?.via).toBe("path");
+    expect(realpathSync(found?.dir ?? "")).toBe(realpathSync(dir));
+  });
+
+  it.skipIf(process.platform === "win32")("follows an unquoted exec too", () => {
+    const root = tempDir("pa-pi-brew-bare-");
+    const dir = brewInstall(root, (target) => `#!/bin/sh\nexec ${target} "$@"\n`);
+    const found = findPiModule({ env: {}, which: () => path.join(root, "bin", "pi"), npmRoot: () => undefined });
+    expect(realpathSync(found?.dir ?? "")).toBe(realpathSync(dir));
+  });
+
+  it("refuses a wrapper whose exec leads to something that is not pi", () => {
+    const root = tempDir("pa-pi-wrapbad-");
+    const impostor = makeImpostor(root);
+    const target = path.join(impostor, "cli.js");
+    writeFileSync(target, "");
+    mkdirSync(path.join(root, "bin"), { recursive: true });
+    const launcher = path.join(root, "bin", "pi");
+    writeFileSync(launcher, `#!/bin/sh\nexec "${target}" "$@"\n`);
+    expect(findPiModule({ env: {}, which: () => launcher, npmRoot: () => undefined })).toBeUndefined();
+  });
+
   it("refuses an npm root whose pi-coding-agent is an impostor", () => {
     const root = tempDir("pa-pi-npmbad-");
     makeImpostor(root);
@@ -153,6 +202,48 @@ describe("findPiModule", () => {
       found = findPiModule({ env: {}, which: hostile, npmRoot: hostile });
     }).not.toThrow();
     expect(found).toBeUndefined();
+  });
+});
+
+describe("piModule in config", () => {
+  it("is the pi a background process loads, through createPiServices", () => {
+    // A pi that only config can lead to, answering with a model nothing else could name. Without
+    // the config, the child would resolve the dev-dependency pi instead and list its models.
+    const dir = makePiPackage(tempDir("pa-pi-cfgsvc-pkg-"));
+    writeFileSync(
+      path.join(dir, "package.json"),
+      JSON.stringify({ name: PI_PACKAGE, version: "0.0.0", type: "module", exports: { ".": "./index.js" } }),
+    );
+    writeFileSync(
+      path.join(dir, "index.js"),
+      [
+        "export const ModelRuntime = { create: async () => ({ getAvailable: async () => [{ provider: 'fake', id: 'from-config' }] }) };",
+        "export const SettingsManager = { create: () => ({ getEnabledModels: () => [] }) };",
+      ].join("\n"),
+    );
+    const home = tempDir("pa-pi-cfgsvc-home-");
+    const agentDir = path.join(home, "agent");
+    mkdirSync(path.join(agentDir, "pi-automations"), { recursive: true });
+    writeFileSync(path.join(agentDir, "pi-automations", "config.json"), JSON.stringify({ piModule: dir }));
+
+    // In a child against dist/: vitest cannot import from the OS temp directory on every platform.
+    const compose = pathToFileURL(path.join(repoRoot, "dist", "hosts", "pi", "compose.js")).href;
+    const script = [
+      `const { createPiServices } = await import(${JSON.stringify(compose)});`,
+      `const services = createPiServices({ home: ${JSON.stringify(home)}, agentDir: ${JSON.stringify(agentDir)} });`,
+      `process.stdout.write(JSON.stringify(await services.modelChoices(${JSON.stringify(home)})));`,
+    ].join("\n");
+    const env: NodeJS.ProcessEnv = { ...process.env, HOME: home, USERPROFILE: home, PI_AGENT_DIR: agentDir };
+    delete env[PI_MODULE_ENV];
+    const child = spawnSync(process.execPath, ["--input-type=module", "-e", script], {
+      encoding: "utf8",
+      cwd: home,
+      env,
+      timeout: 60_000,
+      windowsHide: true,
+    });
+    expect(child.status, child.stderr).toBe(0);
+    expect(JSON.parse(child.stdout).available).toEqual([{ value: "fake/from-config" }]);
   });
 });
 

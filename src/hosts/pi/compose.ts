@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 
 import type { AutomationRuntime, LaunchWorker, ModelResolver, Notify, RunScript, StartFlowTracking, StartRun, WorkerEntry } from "../../core/contracts.js";
+import { loadConfig } from "../../config.js";
 import { defaultSpawnFire } from "../../tick.js";
 import { findPiModule, PI_MODULE_ENV } from "../../pi-module.js";
 import { resolveModel } from "../../model.js";
@@ -66,18 +67,24 @@ export interface PiServices extends PiHostContext {
 }
 
 /** The pi location to hand a worker when this process already knows it. */
-function piModuleHint(): Record<string, string> | undefined {
-  const dir = process.env[PI_MODULE_ENV] ?? findPiModule()?.dir;
+function piModuleHint(configured: string | undefined): Record<string, string> | undefined {
+  const dir = process.env[PI_MODULE_ENV] ?? findPiModule({ configured })?.dir;
   return dir ? { [PI_MODULE_ENV]: dir } : undefined;
 }
 
 export function createPiServices(overrides: Partial<HostRoots> = {}): PiServices {
   const context = piHostContext(overrides);
 
+  // `piModule` from config, read only when pi has to be found: a background process (the OS job,
+  // a worker) has no pi loader of its own, and a pi that is not on npm's paths (Homebrew) is found
+  // only through it.
+  const piModule = (): string | undefined => loadConfig(context.stateDir).config.piModule;
+
   // Only an explicit agent directory is forwarded; otherwise sessions ask pi.
-  const runtime = createPiRuntime(
-    overrides.agentDir ? { agentDir: overrides.agentDir } : {},
-  );
+  const runtime = createPiRuntime({
+    ...(overrides.agentDir ? { agentDir: overrides.agentDir } : {}),
+    piModule,
+  });
 
   const fireScript = path.join(packageDir(), "bin", "fire.js");
   const workerEntry: WorkerEntry = { file: process.execPath, args: [fireScript] };
@@ -92,7 +99,9 @@ export function createPiServices(overrides: Partial<HostRoots> = {}): PiServices
     workerEntry,
     scheduler: backendFor(),
     spawnFire: (stateDirPath: string) => {
-      const start = defaultSpawnFire(stateDirPath, launchLocalWorker, workerEntry, piModuleHint);
+      const start = defaultSpawnFire(stateDirPath, launchLocalWorker, workerEntry, () =>
+        piModuleHint(piModule()),
+      );
       // Node always exists; check the script, which only this host knows.
       return async (args) =>
         existsSync(fireScript)
@@ -101,12 +110,12 @@ export function createPiServices(overrides: Partial<HostRoots> = {}): PiServices
     },
     async modelResolver(): Promise<ModelResolver | undefined> {
       try {
-        const catalog = await loadPiRuntime();
+        const catalog = await loadPiRuntime(piModule());
         return (spec) => resolveModel(spec, catalog);
       } catch {
         return undefined;
       }
     },
-    modelChoices: (cwd: string) => listPiModels(cwd),
+    modelChoices: (cwd: string) => listPiModels(cwd, piModule()),
   };
 }

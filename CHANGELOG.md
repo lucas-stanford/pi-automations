@@ -91,6 +91,19 @@ First public release (0.1.0, not yet published).
   words: `aborted` for a stopped run, disable and enable for `enabled:`, and "unknown key" in
   refusals for a key inside `on.schedule`, `on.watch`, `hooks` or `config.json`.
 
+### Fixed
+
+- A background run finds a pi installed with Homebrew. Its `bin/pi` is a wrapper script that execs
+  `libexec/bin/pi`, and nothing in it names `node_modules`, so every scheduled or watch run was
+  skipped with "pi: cannot find @earendil-works/pi-coding-agent". The lookup now follows the
+  absolute path a wrapper execs to the package it leads to.
+- `piModule` in `config.json` is used. It was read and checked but never handed to the lookup, so the
+  fix that error message suggests did nothing. The watcher, the runs it starts, the model picker
+  and runs started from pi now try it after an inherited `PI_AUTOMATIONS_PI_MODULE`.
+- A run that stopped before it started (not armed, its model not found, still running) no longer
+  asks for a Mermaid flowchart on its graph page. It says the run stopped before anything was
+  tracked, and why.
+
 ### Publishing checklist (TODO)
 
 - Set `repository`, `homepage` and `bugs` in `package.json`.
