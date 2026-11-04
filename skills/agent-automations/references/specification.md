@@ -1,4 +1,4 @@
-# AUTOMATION.md field reference (Draft 0.2)
+# AUTOMATION.md field reference (Draft 0.2.0)
 
 The file is YAML 1.2 frontmatter between two `---` lines, then a Markdown body that must not be empty. YAML 1.2 means `on` is an ordinary key and `yes`, `no`, `on`, `off` are strings. Duplicate keys are refused, and a key with an empty value counts as absent. The first problem found is reported as one line: `<field path>: <what is wrong> — <what fixes it>`. The checks run in this order: the `---` lines and the YAML, a non-empty body, unknown fields (all of them together), then `name`, `description`, `enabled`, `model`, `timeout`, `on`, `hooks`, `flow`.
 
@@ -25,6 +25,7 @@ The file is YAML 1.2 frontmatter between two `---` lines, then a Markdown body t
 | `on` | yes | A mapping with at least one of `schedule`, `manual`, `watch`. |
 | `hooks` | no | A mapping with optional `pre` and `post` lists. No other keys. |
 | `flow` | no | Optional section. `loose` (default) or `strict`; see [Optional: flowcharts](#optional-flowcharts). |
+| `nodes` | no | Optional section. Steps of a strict chart that run through their own agent; see [Optional: flowcharts](#optional-flowcharts). |
 
 ## on
 
@@ -92,6 +93,8 @@ A body may carry a Mermaid flowchart of its steps: the first `mermaid` code bloc
 4. The heading text equals the label as plain text: entities (`#quot;`, `&amp;`) decoded, Markdown marks and quotes dropped, `<br/>` a space, whitespace collapsed, case kept.
 5. Arrows that are part of a loop are not ordered: steps that can reach each other form one group, in any order. For every other arrow `a --> b` between steps, every section in `a`'s group comes before every section in `b`'s.
 6. A step with arrows to two or more steps names each in its section: its id as a word (`fix`, `#fix`, `go to fix`) or its label, in any case.
+
+`nodes` (with `flow: strict` only) maps a step id to the agent that runs it: an agent's name (`review: codex`), or a mapping with `agent`, `model` (as the `model` field) and `timeout` (as the `timeout` field, within what is left of the run's), and at least one of `agent` and `model`. Keys must be steps, not hooks, `body` or `subgraph` ids. The host checks it can run each node's agent and model, shows them in its consent preview, and hands the step over when the body gets there: the node's agent gets that step's section, the text before the first `##` and the run's input, and its answer goes back to the body.
 
 ```text
 flow: line 18: "## Read the issue" has no node id — write `## Read the issue {#read}`; line 22: section `verdict` comes before `repro` (line 26), but the chart goes repro → verdict — move `verdict` below `repro`

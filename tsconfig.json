@@ -3,16 +3,13 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "src",
-    "outDir": "dist",
     "strict": true,
-    "declaration": true,
-    "sourceMap": true,
+    "noEmit": true,
     "skipLibCheck": true,
     "types": ["node"],
     "verbatimModuleSyntax": true,
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": false
+    "allowImportingTsExtensions": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["extensions/**/*.ts", "test/**/*.ts"]
 }

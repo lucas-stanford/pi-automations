@@ -1,17 +1,17 @@
 {
   "name": "pi-automations",
-  "version": "0.1.0",
-  "description": "Scheduled and event-driven automations for the pi coding agent: AUTOMATION.md files that run in the background on a cron schedule or when a watch script finds work, with run records, progress, notes, the pa command line and plugins.",
+  "version": "0.2.0",
+  "description": "Agent Automations in pi, run by fm: the /automations screen, what is running in the footer, and the skills to write and run automations.",
   "type": "module",
   "license": "MIT",
   "author": "Lucas Stanford",
-  "homepage": "https://github.com/OWNER/pi-automations#readme",
+  "homepage": "https://github.com/lucas-stanford/pi-automations#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OWNER/pi-automations.git"
+    "url": "git+https://github.com/lucas-stanford/pi-automations.git"
   },
   "bugs": {
-    "url": "https://github.com/OWNER/pi-automations/issues"
+    "url": "https://github.com/lucas-stanford/pi-automations/issues"
   },
   "engines": {
     "node": ">=22.19.0"
@@ -22,54 +22,35 @@
     "pi-extension",
     "agent-automations",
     "automation",
-    "scheduler",
-    "cron",
-    "ai-agent"
+    "fm"
   ],
   "pi": {
     "extensions": [
-      "./extensions"
+      "./extensions/automations.ts"
     ],
     "skills": [
       "./skills"
     ]
   },
-  "bin": {
-    "pi-automations": "./bin/pi-automations.js",
-    "pa": "./bin/pi-automations.js"
-  },
   "files": [
     "extensions",
-    "dist",
-    "!dist/**/*.map",
-    "bin",
-    "packages/manager/plugin",
-    "packages/manager/dist",
     "skills",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "vitest run",
-    "typecheck": "npm run build && npm run typecheck:extensions",
-    "prepublishOnly": "npm run build && npm run typecheck && npm test",
-    "typecheck:extensions": "tsc -p tsconfig.extensions.json",
-    "verify:sdk-lifecycle": "node scripts/run-sdk-lifecycle-matrix.mjs"
-  },
-  "dependencies": {
-    "croner": "^9",
-    "yaml": "^2"
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
     "@earendil-works/pi-tui": "*"
   },
   "devDependencies": {
-    "@earendil-works/pi-coding-agent": "0.85.1",
-    "@earendil-works/pi-tui": "0.85.1",
-    "@types/node": "^20",
+    "@earendil-works/pi-coding-agent": "1.5.0",
+    "@earendil-works/pi-tui": "*",
+    "@types/node": "^22",
     "typescript": "^5",
     "vitest": "^3"
   }

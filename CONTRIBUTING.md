@@ -1,87 +1,30 @@
 # Contributing
 
-Thanks for helping. This file covers setup, the checks a change has to pass, and how to write
-commits.
+Bug reports and pull requests are welcome.
 
-GitHub Actions workflows are omitted from this copy. Run the checks below locally.
+## Setup and checks
 
-> TODO before publishing: set `repository`, `homepage` and `bugs` in `package.json` (they point at
-> `https://github.com/OWNER/pi-automations`), the `pi.image` gallery preview, and the contacts in
-> [SECURITY.md](SECURITY.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+You need Node.js 22.19 or newer, and fm for trying the extension in pi.
 
-## Setup
-
-You need Node.js 22.19 or newer and git.
-
-```
-git clone https://github.com/OWNER/pi-automations
-cd pi-automations
-npm ci
+```sh
+npm install
+npm run typecheck
+npm test
 ```
 
-pi itself is a dev dependency, so the tests run without a global pi. To try the extension in a real
-pi, install your working copy: `pi install ./` (or `pi install git:<your fork>`).
+The tests drive the extension through a fake pi API and a fake `fm` that records how it was called;
+they never touch your fm state or automations. To try a working copy in pi:
+`pi -e ./extensions/automations.ts`.
 
-## The root package
+## Where things belong
 
-```
-npm run build       # tsc -> dist/
-npm run typecheck   # build, then check extensions/ and the example runtime
-npm test            # vitest
-```
-
-`dist/` is committed, because pi installs git packages with `npm install --omit=dev` and cannot
-build them. Rebuild before committing a change under `src/`; `test/dist.test.ts` fails if `dist/`
-is not exactly what `tsc` emits. Check that a rebuild leaves `git status` clean.
-
-Tests must never touch your real automations or pi state: use the helpers in `test/helpers/`
-(temporary state directories, explicit discovery roots, fake pi hosts). `test/isolation.test.ts`
-guards this.
-
-`npm run verify:sdk-lifecycle` installs several pi versions into a temporary directory and records
-how the extension behaves across session replacement; it needs network access and is not part of
-`npm test`. Update `docs/pi-sdk-lifecycle-matrix.json` with its output when you add a version.
-
-## The specification and agent skills
-
-The [Agent Automations specification and site](https://github.com/lucas-stanford/agent-automations)
-live in a separate repository.
-
-Two agent skills still ship in this package. `skills/agent-automations` is a bundled snapshot of
-the host-neutral skill: it never names `pa`, pi or pi-automations (`test/skills.test.ts` checks).
-Update it from the specification repository when the skill changes. `skills/pi-automations` covers
-this host (`pa`, consent, defaults, reporting); every `pa` verb it names must exist.
-
-## The Automation Manager (`packages/manager`)
-
-The bundled plugin is a separate package with its own lockfile. Its build output
-(`packages/manager/dist` and `packages/manager/plugin`) is committed for the same reason as the root
-`dist/`.
-
-```
-cd packages/manager
-npm ci
-npm run build       # typecheck, app build, plugin build
-npm test            # vitest (jsdom)
-npx playwright install chromium
-npm run test:e2e    # playwright against a mock server
-```
-
-The e2e tests use Playwright's bundled Chromium. To use an installed browser channel instead, set
-`PW_CHANNEL` (for example `PW_CHANNEL=msedge npm run test:e2e`).
-
-The Automation Manager's server tests import the root `dist/`, so build the root package first.
+- What an automation means, and how it runs, is fm's (https://github.com/lucas-stanford/fm) and
+  the specification's (https://github.com/lucas-stanford/agent-automations). This package only shows
+  and drives fm from pi.
+- `skills/agent-automations` is a copy of the specification repository's skill. Change it there,
+  then copy it here.
 
 ## Pull requests
 
-- Keep changes focused, with tests for behaviour changes.
-- Run `npm run typecheck` and `npm test` (and the manager checks if you touched it) before pushing.
-- Update the docs and `CHANGELOG.md` (under "Unreleased") when behaviour a user can see changes.
-- Comments explain why, not what, and stay short.
-- Prose, UI text, messages and comments use the terms in [docs/GLOSSARY.md](docs/GLOSSARY.md).
-
-## Commit messages
-
-Plain English, imperative mood, a short summary line (about 72 characters or fewer), then a body
-that explains what changed and why when it is not obvious. One logical change per commit; no
-prefixes are required.
+- Keep each pull request to one change, with tests for behaviour you change.
+- Update `README.md` and the `Unreleased` section of `CHANGELOG.md` when what a person sees changes.
