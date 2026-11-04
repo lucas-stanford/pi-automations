@@ -2,12 +2,12 @@
 name: agent-automations
 description: Create, review and fix Agent Automations, the AUTOMATION.md files that run an AI agent on a cron schedule, when a watch script finds new work, or on demand. Use when the user wants to automate a recurring agent task, schedule a prompt, react when something new appears, write or debug an AUTOMATION.md, a hook or a watch script, or make a run leave receipts, a record of what it published and one message for the reader.
 license: MIT
-compatibility: Agent Automations Draft 0.2, any host that implements it. The templates' scripts need Node.js.
+compatibility: Agent Automations Draft 0.2.0, any host that implements it. The templates' scripts need Node.js.
 ---
 
 # Agent Automations
 
-An automation is a folder named after it, holding an `AUTOMATION.md`. The YAML frontmatter says when the agent runs and what runs before and after it. The Markdown body is the prompt for every run. The host (any program that implements Draft 0.2) finds the folder, keeps the schedule and records every run.
+An automation is a folder named after it, holding an `AUTOMATION.md`. The YAML frontmatter says when the agent runs and what runs before and after it. The Markdown body is the prompt for every run. The host (any program that implements Draft 0.2.0) finds the folder, keeps the schedule and records every run.
 
 Work through the decisions in this order:
 
@@ -51,7 +51,7 @@ A run starts when any trigger fires. There is no `manual: false`; leave the key 
 
 ## 3. Write the frontmatter
 
-Draft 0.2 has exactly eight fields: `name`, `description`, `enabled`, `model`, `timeout`, `on`, `hooks`, `flow`. Anything else is refused by name, so do not invent fields (`schedule:` at the top level, `budget:`, `tags:`). The full rules are in [references/specification.md](references/specification.md).
+Draft 0.2.0 has exactly nine fields: `name`, `description`, `enabled`, `model`, `timeout`, `on`, `hooks`, `flow`, `nodes`. Anything else is refused by name, so do not invent fields (`schedule:` at the top level, `budget:`, `tags:`). The full rules are in [references/specification.md](references/specification.md).
 
 ```markdown automation title="~/.agents/automations/daily-briefing/AUTOMATION.md"
 ---
@@ -129,6 +129,18 @@ When the chart has more than two steps, or a branch or a retry, add `flow: stric
 
 The host's checker lists every mismatch with its line and the fix. Write each step's move into its section. [assets/manual-branch-review/](assets/manual-branch-review/AUTOMATION.md) is a strict template.
 
+### A step on its own agent
+
+With `flow: strict`, `nodes` can hand a step to a different agent CLI or model: a stronger model for the hard step, another vendor's agent to review the first one's work.
+
+```yaml
+nodes:
+  fix: { agent: claude, model: anthropic/claude-opus-4-5:high, timeout: 90m }
+  review: codex
+```
+
+Each key is a step id; each value is an agent's name or a mapping with `agent`, `model` and `timeout`. Write the step's section as the whole instruction for that agent: it gets its section, the text before the first `##` and the run's input, not the other sections. The host tells the body how to hand the step over when it gets there, and the body goes on from the answer. A host that does not implement `nodes` refuses the file, so check that every host your team uses has it.
+
 ## 6. Ask for receipts
 
 The person who reads a run was not there when it ran. End every body by asking, in plain words, for a record of what it published and one message for them:
@@ -167,7 +179,7 @@ Copy a folder from `assets/` into an `automations/` folder, rename the folder, a
 | Message starts with | Fix |
 |---|---|
 | `name: … does not match the directory name` | Rename the folder or the `name` so they are equal. |
-| `schedule: unknown field` (or any other name) | Move it under `on:`; only the eight fields exist. |
+| `schedule: unknown field` (or any other name) | Move it under `on:`; only the nine fields exist. |
 | `frontmatter: Unexpected alias … quote the cron expression` | Quote the cron: `cron: "*/15 * * * *"`. |
 | `on.schedule.cron: "@daily" is a nickname` | Write five fields: `"0 0 * * *"`. |
 | `on.schedule.timezone: "PST" is not an IANA zone` | Use a zone name such as `America/Los_Angeles`. |

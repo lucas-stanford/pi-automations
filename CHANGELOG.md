@@ -4,9 +4,25 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.2.0
 
-First public release (0.1.0, not yet published).
+pi-automations runs on fm. fm (https://github.com/lucas-stanford/fm) is the Agent Automations host
+now: discovery, validation, consent, schedules, watches, runs, records and the watcher are fm's, and
+this package is how pi shows and drives it.
+
+- `/automations` and ctrl+alt+a open fm's screen over pi's, and hand the terminal back when it is
+  closed.
+- `/automations <verb>` runs one fm command; `arm` shows the consent preview in pi and asks; `run`
+  goes in the background. `/automations new` starts pi on writing a new automation.
+- The footer shows what is running and on which step; a notification says how each run ended.
+- Ships the `agent-automations` skill (Draft 0.2.0, with `nodes`) and an `fm` skill.
+- Removed: the TypeScript host (parser, scheduler, runner, consent, records), the `pa` command, the
+  Automation Manager and the HTML report. fm does what they did; its state is its own, so arm your
+  automations again in fm.
+
+## 0.1.0
+
+The TypeScript host, before fm.
 
 ### Added
 
